@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <button ion-button color="danger" style="height: 3.0rem;font-size: 1.0rem;margin-bottom: 15px;" onclick="clickFilter()"><ion-icon name="search"></ion-icon></button>
+  
+  <div class="filters" style="margin-top: -15px;" text-center>
+    <form (ngSubmit)="logForm()">
+      <ion-grid>
+        <ion-row>
+          <ion-item ion-col col-6>
+            <ion-label stacked>Search:</ion-label>
+            <ion-input name="search" type="search" [(ngModel)]="todo.search" placeholder="Search"></ion-input>
+          </ion-item>
+          <ion-item ion-col col-6>
+            <ion-label stacked>Category:</ion-label>
+            <ion-select [(ngModel)]="todo.category" name="category" placeholder="Category">
+              <ion-option value="0">None</ion-option>
+              <ion-option *ngFor="let item of categories" value="{{item.id}}">{{item.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item ion-col col-6>
+            <ion-label stacked>Language:</ion-label>
+            <ion-select [(ngModel)]="todo.language" name="language" placeholder="Language">
+              <ion-option value="0">None</ion-option>
+              <ion-option *ngFor="let item of languages" value="{{item.code}}">{{item.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item ion-col col-6>
+            <ion-label stacked>Duration:</ion-label>
+            <ion-select [(ngModel)]="todo.duration" name="duration" placeholder="Duration">
+              <ion-option value="0">None</ion-option>
+              <ion-option *ngFor="let item of duration" value="{{item.id}}">{{item.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+      </ion-grid>
+      <button ion-button type="submit" color="danger" onclick="clickFilter()" block>Add Filter</button>
+    </form>
+    <hr>
+  </div>
+
+  <div class="home" text-center>
+    <div onclick="desaparecer();" class="blip">
+    </div>
+    <h3>Random Youtube</h3>
+    <p>Welcome, press to play a random video</p>
+    <br>
+    <button ion-button color="danger" onclick="desaparecer();" class="buttonplay"><ion-icon name="play"></ion-icon></button>
+  </div>
+
+  <div id="videos" class="videos">
+    <h4>{{title}}</h4>
+    <div id="video"  class="video-container">
+    </div>
+    <br>
+    <button ion-button color="danger" (click)="getdata();" disabled={{buttonDisabled}}>Random</button>
+    <div class="videoAnterior" text-right>Previous Video</div>
+    <br>
+    <button class="cargarVideoAnterior" id="cargarVideoAnterior" disabled={{imageDisabled}} (click)="cargarAnterior();" style="max-width: 100%;float: right;background: white;margin-right: -5px;" text-right></button>
+    <br><br>
+    <div class="negrilla">Author:&nbsp;</div><div style="width: 50%;">{{author}}</div><br>
+    <div class="negrilla">Duration:&nbsp;</div><div>{{time}}</div>
+  </div>
+
+</ion-content>

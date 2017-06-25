@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ionic App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4e8ef7">
+ 
+  <!-- cordova.js required for cordova apps -->
+  <script src="cordova.js"></script>
+
+  <!-- un-comment this code to enable service worker
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('service worker installed'))
+        .catch(err => console.error('Error', err));
+    }
+  </script>-->
+
+  <link href="build/main.css" rel="stylesheet">
+
+</head>
+<body>
+
+  <!-- Ionic's root component and where the app will load -->
+  <ion-app></ion-app>
+
+  <!-- The polyfills js is generated during the build process -->
+  <script src="build/polyfills.js"></script>
+
+  <!-- The bundle js is generated during the build process -->
+  <script src="build/main.js"></script>
+  <script src="assets/lib/jquery.min.js"></script>
+  <script>
+    function desaparecer(){
+      $(".home").hide("scale");
+      $(".videos").show("scale");
+    }
+    function clickFilter(){
+      $(".filters").toggle("scale");
+    }
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+	<script>
+    // Initialize Firebase
+    $(document).ready(function () {
+      $.getJSON("http://jsonip.com/?callback=?", function (data) {
+          ip=data.ip;
+          var fecha = new Date();
+          var dd = fecha.getDate();
+          var mm = fecha.getMonth()+1;
+          var yyyy = fecha.getFullYear();
+          if(dd<10) {
+            dd='0'+dd
+          } 
+          if(mm<10) {
+            mm='0'+mm
+          } 
+          fecha = dd+'/'+mm+'/'+yyyy;
+          
+          var config = {
+            apiKey: "AIzaSyDPO0G7Q0-lAm5vBALR2rWSsc9_D_tR3VE",
+            authDomain: "randomyoutube-5fec2.firebaseapp.com",
+            databaseURL: "https://randomyoutube-5fec2.firebaseio.com/",
+            projectId: "randomyoutube-5fec2",
+            storageBucket: "randomyoutube-5fec2.appspot.com",
+            messagingSenderId: "1089622345487"
+          };
+          firebase.initializeApp(config);
+          
+          var database = firebase.database();
+          userConect=null;
+
+          userConect=database.ref("/user");
+          AddUserBD(ip, fecha);
+
+          function AddUserBD(ip, fecha){
+            firebase.database().ref('totalVisitas/').push({
+              ip: ip,
+              fecha: fecha
+            });
+
+            firebase.database().ref('visitantesUnicos/').set({
+              ip: ip,
+              fecha: fecha
+            });
+
+          }
+      });
+    });
+    
+	</script>
+</body>
+</html>
